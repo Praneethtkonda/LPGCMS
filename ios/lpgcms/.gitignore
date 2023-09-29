@@ -1,0 +1,59 @@
+# macOS
+.DS_Store
+
+# Xcode
+xcuserdata/
+*.xcworkspace/
+*.xcuserstate
+project.xcworkspace/
+
+# Swift Package Manager
+.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Generated files
+DerivedData/
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+# IDE settings
+.idea/
+.vscode/
+
+# Compiled source
+*.o
+*.link-destination
+*.swiftdoc
+*.swiftmodule
+
+# App archives
+*.ipa
+*.dSYM.zip
+
+# Package directories
+Packages/
+
+# Swift Package Manager metadata
+.spm/
+
+# Xcode 8
+*.xcscmblueprint
+*.xccheckout
+
+# Swift toolchain
+.llvm/
+.build/
+
+# Dependency Manager
+Pods/
+Carthage/Checkouts/
+Carthage/Build/
+.build/
