@@ -5,19 +5,19 @@ import (
 	"log"
 	"net"
 
-	"github.com/Praneethtkonda/LPGCMS/server/models"
+	"github.com/Praneethtkonda/LPGCMS/server/routes"
 )
 
 func main() {
-	lis, err := net.Listen("tcp", ":9000")
+	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	var ret int = models.Hello()
-	log.Printf("%v", ret)
 	grpcServer := grpc.NewServer()
-	log.Printf("Server serving on port [::]50051")
+	routes.IncludeRoutes(grpcServer)
+
+	log.Printf("Server listening on port [::]50051")
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}

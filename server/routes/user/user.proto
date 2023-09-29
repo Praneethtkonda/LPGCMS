@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package userpb;
+option go_package = "github.com/Praneethtkonda/LPGCMS/server/routes/user/userpb";
+
+
+// The basic user service definition.
+service UserService {
+  // Service for basic user interactions
+  rpc RegisterUser (RegisterUserPayload) returns (UserResponse) {}
+  rpc UpdateUser (UpdateUserPayload) returns (UserResponse) {}
+  rpc DeleteUser (DeleteUserPayload) returns (UserResponse) {}
+}
+
+message RegisterUserPayload {
+    string name = 1;
+    string phonenumber = 2;
+    string emailaddress = 3;
+    string password = 4;
+    string floornumber = 5; // Do we need this ?
+}
+
+message UserResponse {
+    string message = 1;
+}
+
+message UpdateUserPayload {
+    string name = 1;
+    string phonenumber = 2;
+    string emailaddress = 3;
+    string password = 4;
+    string floornumber = 5; // Do we need this ?
+}
+
+message DeleteUserPayload {
+    string name = 1;
+    string phonenumber = 2;
+    string emailaddress = 3;
+}
+
+service UserEventService {
+    rpc PushEvent (EventPayload) returns (PushEventResponse) {}
+}
+// TODO: Change the details here
+message EventPayload {
+    string name = 1;
+    string phonenumber = 2;
+    string emailaddress = 3;
+} 
+// The response message containing the greetings
+message PushEventResponse {
+    string message = 1;
+}
