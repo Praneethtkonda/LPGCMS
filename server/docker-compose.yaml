@@ -1,0 +1,43 @@
+version: '3'
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - "50051:50051"
+    env_file: .env
+    volumes:
+      - .:/app
+
+  cockroachdb-1:
+    image: cockroachdb/cockroach:v23.1.0
+    hostname: cockroachdb-1
+    command: start --advertise-addr=cockroachdb-1:26357 --http-addr=cockroachdb-1:8080 --listen-addr=cockroachdb-1:26357 --sql-addr=cockroachdb-1:26257 --insecure --join=cockroachdb-1:26357,cockroachdb-2:26357,cockroachdb-3:26357 &&  --host=cockroachdb-1:26357 init --insecure
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    volumes:
+      - cockroachdb-1:/cockroach/cockroach-data
+  cockroachdb-2:
+    hostname: cockroachdb-2
+    image: cockroachdb/cockroach:v23.1.0
+    command: start --advertise-addr=cockroachdb-2:26357 --http-addr=cockroachdb-2:8081 --listen-addr=cockroachdb-2:26357 --sql-addr=cockroachdb-2:26258 --insecure --join=cockroachdb-1:26357,cockroachdb-2:26357,cockroachdb-3:26357
+    ports:
+      - "26258:26258"
+      - "8081:8081"
+    volumes:
+      - cockroachdb-2:/cockroach/cockroach-data
+  cockroachdb-3:
+    hostname: cockroachdb-3
+    image: cockroachdb/cockroach:v23.1.0
+    command: start --advertise-addr=cockroachdb-3:26357 --http-addr=cockroachdb-3:8082 --listen-addr=cockroachdb-3:26357 --sql-addr=cockroachdb-3:26259 --insecure --join=cockroachdb-1:26357,cockroachdb-2:26357,cockroachdb-3:26357
+    ports:
+      - "26259:26259"
+      - "8082:8082"
+    volumes:
+      - cockroachdb-3:/cockroach/cockroach-data
+
+volumes:
+  cockroachdb-1:
+  cockroachdb-2:
+  cockroachdb-3:
