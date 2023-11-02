@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Lpgcms" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Splash" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+<!--    <style name="Theme.App.SplashScreen" parent="Theme.SplashScreen">-->
+<!--        <item name="windowSplashScreenBackground">@color/white</item>-->
+<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>-->
+<!--        <item name="postSplashScreenTheme">@style/Theme.Lpgcms</item>-->
+<!--    </style>-->
+</resources>
