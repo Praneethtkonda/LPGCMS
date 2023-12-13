@@ -5,7 +5,7 @@ import (
 	"context"
 	"google.golang.org/grpc"
 	pb "github.com/Praneethtkonda/LPGCMS/server/routes/user/pb"
-	// "github.com/Praneethtkonda/LPGCMS/server/models"
+	"github.com/Praneethtkonda/LPGCMS/server/models/user"
 )
 
 type server struct {
@@ -28,6 +28,12 @@ func (s *server) RegisterUser(ctx context.Context, in *pb.RegisterUserPayload) (
 	log.Printf("Received Floor number: %v\n", in.GetFloornumber())
 	// TODO: Store data in db using models
 	// TODO: Have enum codes as response for already existing data or error data
+	err := user.RegisterUser(in.GetName(), in.GetPhonenumber(), in.GetEmailaddress(), in.GetPassword(), in.GetFloornumber())
+	if err != nil {
+		log.Printf("Error registering user: %v", err)
+		// TODO: Send a different error properly to the user
+		return &pb.UserResponse{Message: "User not registered: " + in.GetName()}, err
+	}
 	return &pb.UserResponse{Message: "User registered: " + in.GetName()}, nil
 }
 

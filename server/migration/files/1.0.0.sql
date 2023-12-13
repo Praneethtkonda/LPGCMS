@@ -1,22 +1,17 @@
-CREATE TABLE MIGRATIONS(
-    
-);
-
-CREATE TABLE USERS(
+CREATE TABLE IF NOT EXISTS USERS(
     "id" BIGINT PRIMARY KEY NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
+    "name" VARCHAR(50) NOT NULL,
     "floor" BIGINT NOT NULL,
     "phone_number" BIGINT NOT NULL,
-    "email" VARCHAR(255) NOT NULL,
-    "info" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(30) NOT NULL,
+    "info" VARCHAR(200) NOT NULL,
     "password_digest" VARCHAR(255) NULL,
     "created_at" DATE NOT NULL,
     "updated_at" DATE NOT NULL,
     "profile_image" VARCHAR(255) NOT NULL
 );
 
-
-CREATE TABLE RESOURCES(
+CREATE TABLE IF NOT EXISTS RESOURCES(
     "id" BIGINT PRIMARY KEY NOT NULL,
     "name" BIGINT NOT NULL,
     "resource_type" VARCHAR(255) CHECK
@@ -26,7 +21,7 @@ CREATE TABLE RESOURCES(
     "updated_at" DATE NOT NULL
 );
 
-CREATE TABLE EVENTS(
+CREATE TABLE IF NOT EXISTS EVENTS(
     "id" BIGINT PRIMARY KEY NOT NULL,
     "content" VARCHAR(255) NULL,
     "user_id" BIGINT NOT NULL,
@@ -34,10 +29,9 @@ CREATE TABLE EVENTS(
     "updated_at" DATE NULL
 );
 
-CREATE INDEX "events_user_id_created_at_index" ON
-    "events"("user_id", "created_at");
+CREATE INDEX "events_user_id_created_at_index" ON "events"("user_id", "created_at");
 
-CREATE TABLE BOOKINGS(
+CREATE TABLE IF NOT EXISTS BOOKINGS(
     "id" BIGINT PRIMARY KEY NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "user_id" BIGINT NOT NULL,
@@ -50,9 +44,6 @@ CREATE TABLE BOOKINGS(
         ("status" IN('')) NOT NULL
 );
 
-ALTER TABLE
-    "events" ADD CONSTRAINT "events_user_id_foreign" FOREIGN KEY("user_id") REFERENCES "users"("id");
-ALTER TABLE
-    "bookings" ADD CONSTRAINT "bookings_user_id_foreign" FOREIGN KEY("user_id") REFERENCES "users"("id");
-ALTER TABLE
-    "bookings" ADD CONSTRAINT "bookings_resource_id_foreign" FOREIGN KEY("resource_id") REFERENCES "resources"("id");
+ALTER TABLE "events" ADD CONSTRAINT "events_user_id_foreign" FOREIGN KEY("user_id") REFERENCES "users"("id");
+ALTER TABLE "bookings" ADD CONSTRAINT "bookings_user_id_foreign" FOREIGN KEY("user_id") REFERENCES "users"("id");
+ALTER TABLE "bookings" ADD CONSTRAINT "bookings_resource_id_foreign" FOREIGN KEY("resource_id") REFERENCES "resources"("id");
