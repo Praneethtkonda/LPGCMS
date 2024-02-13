@@ -5,9 +5,37 @@ import (
 	"log"
 	"os"
 	"sync"
+	"time"
+	"math/rand"
+	"errors"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
+
+func dbConnRetryExponential(fn func(ctx context.Context, connStr string) (*pgxpool.Pool, error),
+						    connStr string,
+						  	maxRetries int) (*pgxpool.Pool, error) {
+	retryDelay := 1
+	for attempt := 1; attempt <= maxRetries; attempt++ {
+		log.Printf("Retrying for time: %d", attempt)
+		pool, _ := fn(context.Background(), connStr) // Execute the provided function
+		err := pool.Ping(context.Background())
+		if err == nil {
+			return pool, nil // Success, no error
+		}
+
+		log.Printf("Attempt %d failed: %s", attempt+1, err)
+
+		// Exponential backoff time calculation
+		retryDelay *= 2
+		jitter := time.Duration(rand.Intn(1000)) * time.Millisecond // Add jitter for randomness
+		waitTime := time.Duration(retryDelay) * time.Second + jitter
+
+		time.Sleep(waitTime)
+	}
+	// If all retries fail
+	return nil, errors.New("failed connecting to db after 10 retries") 
+}
 
 var once sync.Once
 var pool *pgxpool.Pool
@@ -15,9 +43,8 @@ var pool *pgxpool.Pool
 func GetPool() *pgxpool.Pool {
 	once.Do(func() {
 		connStr := os.Getenv("DATABASE_URL")
-		log.Print(connStr)
 		var err error
-		pool, err = pgxpool.New(context.Background(), connStr)
+		pool, err = dbConnRetryExponential(pgxpool.New, connStr, 10)
 		if err != nil {
 			log.Fatalf("Unable to create connection pool: %v\n", err)
 		}

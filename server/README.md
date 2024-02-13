@@ -10,6 +10,7 @@ $ protoc --proto_path=. --go_out=./pb --go-grpc_out=./pb --go-grpc_opt=paths=sou
 ## Running the server code
 ```bash
 $ cd server
+$ export DATABASE_URL='postgresql://root@localhost:26257/defaultdb?sslmode=disable'
 $ go run main.go
 2023/09/29 22:14:46 Server listening on port [::]50051
 # You will get this below output after running the client command
