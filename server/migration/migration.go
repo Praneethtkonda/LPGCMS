@@ -64,8 +64,6 @@ func listMigrationVersion(folderPath string) []string {
 		SELECT version FROM migrations WHERE version IN ('%s')
 	`, strings.Join(versions, "','"), strings.Join(versions, "','"))
 
-	log.Printf("Query: %v\n", query)
-	
 	rows, err := dbPool.Query(context.Background(), query)
 	if err != nil {
 		log.Fatal("Error executing query:", err)
@@ -113,7 +111,7 @@ func executeSQLFile(filePath string, version string) {
 
 func doMigration(folderPath string, pendingMigrations []string) {
 	for _, version := range pendingMigrations {
-		filePath := filepath.Join(folderPath, version + ".sql")
+		filePath := filepath.Join(folderPath, version+".sql")
 		log.Printf("Executing sql for filepath: %v", filePath)
 		executeSQLFile(filePath, version)
 	}
