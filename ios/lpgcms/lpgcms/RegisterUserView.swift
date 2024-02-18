@@ -20,45 +20,52 @@ struct RegisterUserView: View {
     var body: some View {
         ScrollView (showsIndicators: false, content: {
             VStack {
-                Image("LPgcms_logo")
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                    .aspectRatio(contentMode: .fill)
-
                 Text("Register yourself")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding()
+                    .font(.title)
+                    .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                    .padding(.top, 35)
+                
+                Image("landing_3")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .padding(.bottom, 20)
+                    .frame(width: 200, height: 200)
+
+                
                 TextField("Name", text: $name)
                     .padding()
                     .frame(width: 300, height: 50)
                     .background(Color.black.opacity(0.05))
-                    .cornerRadius(10)
-//                    .border(.red, width: CGFloat(wrongUsername))
+                    .cornerRadius(4)
+                    .padding(.bottom, 5)
+
                 TextField("Phone number", text: $phonenumber)
                     .padding()
                     .frame(width: 300, height: 50)
                     .background(Color.black.opacity(0.05))
-                    .cornerRadius(10)
-//                    .border(.red, width: CGFloat(wrongUsername))
+                    .cornerRadius(4)
+                    .padding(.bottom, 5)
+
                 TextField("Email Address", text: $email)
                     .padding()
                     .frame(width: 300, height: 50)
                     .background(Color.black.opacity(0.05))
-                    .cornerRadius(10)
-//                    .border(.red, width: CGFloat(wrongUsername))
+                    .cornerRadius(4)
+                    .padding(.bottom, 5)
+
                 TextField("Floor number", text: $floornumber)
                     .padding()
                     .frame(width: 300, height: 50)
                     .background(Color.black.opacity(0.05))
-                    .cornerRadius(10)
-//                    .border(.red, width: CGFloat(wrongUsername))
+                    .cornerRadius(4)
+                    .padding(.bottom, 5)
+
                 SecureField("Password", text: $password)
                     .padding()
                     .frame(width: 300, height: 50)
                     .background(Color.black.opacity(0.05))
-                    .cornerRadius(10)
-//                    .border(.red, width: CGFloat(wrongPassword))
+                    .cornerRadius(4)
+                    .padding(.bottom, 15)
                 
                 Button("Register") {
                     // Logic to authenticate the user
@@ -66,10 +73,9 @@ struct RegisterUserView: View {
                 }
                 .foregroundColor(.white)
                 .frame(width: 300, height: 50)
-                .background(Color.blue)
+                .background(Color.appYellow)
                 .cornerRadius(10)
             }
-//            }
         })
 //        .scrollClipDisabled(true)
         .navigationBarHidden(false)

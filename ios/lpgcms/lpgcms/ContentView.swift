@@ -14,19 +14,25 @@ struct ContentView: View {
     var body: some View {
         NavigationStack{
             VStack {
+                Spacer()
                 Image("LPgcms_logo")
                     .resizable()
                     .font(.system(size: 400))
-                    .foregroundColor(.cyan)
+//                    .foregroundColor(.cyan)
                     .aspectRatio(contentMode: .fit)
-                    .padding(.all, 80)
+                    .padding(.all, 30)
                 
-                Text("LPGCMS").bold()
-                    .font(.system(size: 40))
-                Text("LPHomes 2021-2023")
+//                Text("Homes").bold()
+//                    .font(.system(size: 40))
+                Spacer()
+//                Text("LPHomes 2021-2023")
+                Text("© LPHomes 2024. All Rights Reserved.")
+                .font(.footnote)
+                .foregroundColor(.gray)
             }
             .navigationDestination(isPresented: $showLogin) {
-                RegisterUserView()
+//                RegisterUserView()
+                LandingPageView()
             }
             .onAppear{
                 Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
