@@ -10,6 +10,7 @@ service UserService {
   rpc RegisterUser (RegisterUserPayload) returns (UserResponse) {}
   rpc UpdateUser (UpdateUserPayload) returns (UserResponse) {}
   rpc DeleteUser (DeleteUserPayload) returns (UserResponse) {}
+  rpc LoginUser (LoginUserPayload) returns (UserResponse) {}
 }
 
 message RegisterUserPayload {
@@ -22,6 +23,12 @@ message RegisterUserPayload {
 
 message UserResponse {
     string message = 1;
+}
+
+message LoginUserPayload {
+    string phonenumber = 1;
+    string password = 2;
+    string role = 3;
 }
 
 message UpdateUserPayload {

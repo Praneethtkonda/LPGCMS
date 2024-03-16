@@ -101,7 +101,7 @@ func executeSQLFile(filePath string, version string) {
 		}
 	}
 
-	query := "INSERT INTO MIGRATIONS VALUES(DEFAULT, $1)"
+	query := "INSERT INTO MIGRATIONS VALUES(DEFAULT, $1, DEFAULT)"
 	_, err = dbPool.Exec(context.Background(), query, version)
 	if err != nil {
 		log.Fatalf("Error inserting into migration table %v", err)

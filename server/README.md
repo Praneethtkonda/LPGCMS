@@ -24,6 +24,9 @@ $ go run main.go
 ## Running the server code using docker
 ```bash
 $ cd server
+$ cd cert
+$ ./cert-gen.sh # Used for generating tls certs for the application
+$ cd .. # come back to server folder
 $ docker compose up
 [+] Running 2/1
  ✔ Network server_default     Created                                                                              0.0s

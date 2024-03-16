@@ -3,13 +3,14 @@ package db
 import (
 	"context"
 	"log"
-	"os"
 	"sync"
 	"time"
 	"math/rand"
 	"errors"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+
+	"github.com/Praneethtkonda/LPGCMS/server/util"
 )
 
 func dbConnRetryExponential(fn func(ctx context.Context, connStr string) (*pgxpool.Pool, error),
@@ -42,9 +43,9 @@ var pool *pgxpool.Pool
 
 func GetPool() *pgxpool.Pool {
 	once.Do(func() {
-		connStr := os.Getenv("DATABASE_URL")
+		connStr := util.DATABASE_URL
 		var err error
-		pool, err = dbConnRetryExponential(pgxpool.New, connStr, 10)
+		pool, err = dbConnRetryExponential(pgxpool.New, connStr, util.MaxDBRetries)
 		if err != nil {
 			log.Fatalf("Unable to create connection pool: %v\n", err)
 		}

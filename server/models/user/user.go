@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"errors"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 
@@ -19,15 +20,30 @@ func RegisterUser(name string, phone string, email string, password string, floo
 		return err
 	}
 
-	// TODO: Login logic
-	// err = bcrypt.CompareHashAndPassword(hashedPassword, []byte("secret"))
-	// if err != nil {
-	// 	log.Print("Passwords are not same")
-	// } else {
-	// 	log.Print("Passwords are same")
-	// }
-
 	_, err = dbPool.Exec(context.Background(), query, name,
 		floor, phone, email, info, string(hashedPassword))
 	return err
+}
+
+func LoginUser(phone string, password string) error {
+	dbPool := db.GetPool()
+	query := "SELECT password FROM USERS WHERE phone_number=$1"
+	var pwd string
+	err := dbPool.QueryRow(context.Background(), query, phone).Scan(&pwd)
+	if err != nil {
+		log.Print("Error executing login query")
+		return err
+	}
+
+	if pwd == "" {
+		log.Print("Login error")
+		return errors.New("login error")
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(pwd), []byte(password))
+	if err != nil {
+		return errors.New("login error")
+	}
+	log.Print("Logged in successfully")
+	return nil
 }

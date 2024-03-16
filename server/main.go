@@ -12,6 +12,7 @@ import (
 	"github.com/Praneethtkonda/LPGCMS/server/migration"
 	"github.com/Praneethtkonda/LPGCMS/server/models"
 	"github.com/Praneethtkonda/LPGCMS/server/routes"
+	"github.com/Praneethtkonda/LPGCMS/server/util"
 )
 
 func main() {
@@ -21,7 +22,11 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(
+		grpc.Creds(util.LoadTLSCredentials()),
+		grpc.UnaryInterceptor(util.AuthUnaryInterceptor),
+	)
+
 	routes.IncludeRoutes(grpcServer)
 	registerGracefulShutdown(grpcServer)
 
